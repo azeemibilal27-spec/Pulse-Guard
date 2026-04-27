@@ -1,0 +1,27 @@
+kind = "mobile"
+previewPath = "/"
+title = "PulseGuard"
+version = "1.0.0"
+id = "artifacts/pulse-guard"
+router = "expo-domain"
+
+[[integratedSkills]]
+name = "expo"
+version = "1.0.0"
+
+[[services]]
+ensurePreviewReachable = "/status"
+name = "expo"
+paths = [ "/" ]
+localPort = 24100
+
+[services.development]
+run = "pnpm --filter @workspace/pulse-guard run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/pulse-guard", "run", "build" ]
+run = [ "pnpm", "--filter", "@workspace/pulse-guard", "run", "serve" ]
+
+[services.env]
+PORT = "24100"
+BASE_PATH = "/"
