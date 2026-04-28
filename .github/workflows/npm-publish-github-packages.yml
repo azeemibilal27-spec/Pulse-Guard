@@ -1,24 +1,22 @@
-name: Pulse Guard APK Build
-on: [push]
-jobs:
-  android-build:
-    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # --- ADD THIS STEP BELOW ---
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
         with:
-          node-version: 22
-      - name: Install & Build
-        run: |
-          npm install
-          npm run build
+          version: 8
+      # ---------------------------
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm' # Change 'npm' to 'pnpm' here
+
+      - name: Install dependencies
+        run: pnpm install # Change 'npm install' to 'pnpm install'
+        
       - name: Build APK
-        run: |
-          npx cap sync android
-          cd android && chmod +x gradlew
-          ./gradlew assembleDebug
-      - name: Upload APK
-        uses: actions/upload-artifact@v4
-        with:
-          name: PulseGuard-Release
-          path: android/app/build/outputs/apk/debug/app-debug.apk
+        run: pnpm run build # Change 'npm run build' to 'pnpm run build'
