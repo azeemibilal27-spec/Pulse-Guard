@@ -1,22 +1,30 @@
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+name: Node.js Package
 
-      # --- ADD THIS STEP BELOW ---
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v2
+on:
+  release:
+    types: [created]
+
+jobs:
+  publish-gpr:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+
+      # This installs pnpm so your project doesn't block the build
+      - uses: pnpm/action-setup@v2
         with:
           version: 8
-      # ---------------------------
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'pnpm' # Change 'npm' to 'pnpm' here
+          node-version: 20
+          registry-url: https://npm.pkg.github.com/
+          cache: 'pnpm'
 
-      - name: Install dependencies
-        run: pnpm install # Change 'npm install' to 'pnpm install'
-        
-      - name: Build APK
-        run: pnpm run build # Change 'npm run build' to 'pnpm run build'
+      - run: pnpm install
+      - run: pnpm publish
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
