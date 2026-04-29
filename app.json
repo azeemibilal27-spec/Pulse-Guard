@@ -1,0 +1,18 @@
+{
+  "expo": {
+    "extra": {
+      "eas": {
+        "projectId": "e243fd72-c641-4202-ad30-6ba7eb5cb92d"
+      }
+    },
+    "android": {
+      "package": "com.bx1bilal.workspace"
+    },
+    "ios": {
+      "bundleIdentifier": "y",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
+    }
+  }
+}
